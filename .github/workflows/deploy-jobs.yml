@@ -1,0 +1,22 @@
+---
+name: Deploy to Immerok Cloud
+on:
+  push:
+    branches:
+      - main
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Install rok
+        uses: ./.github/workflows/composite/install-rok
+        with:
+          version: 0.0.12
+      - name: Test
+        run: |
+          rok version
