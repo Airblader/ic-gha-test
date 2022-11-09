@@ -2,17 +2,20 @@ name: Install rok CLI
 description: Installs the Immerok Cloud rok CLI.
 inputs:
   version:
-    # FIXME Use this
     description: "CLI version, e.g. 0.0.1"
     required: true
 runs:
   using: composite
   steps:
-    - name: Set up Homebrew
-      id: set-up-homebrew
-      uses: Homebrew/actions/setup-homebrew@master
     - name: Download CLI
       shell: bash
       run: |
-        brew tap immerok/tap
-        brew install rok
+        wget "https://releases.immerok.cloud/rok/v${{ inputs.version }}/rok-linux-amd64.tar.gz"
+        tar -xzf "rok-linux-amd64.tar.gz"
+        rm -f "rok-linux-amd64.tar.gz"
+        
+        mkdir -p "$HOME/.local/bin"
+        mv "rok-linux-amd64/rok" "$HOME/.local/bin/rok"
+        echo "$HOME/.local/bin/rok" >> $GITHUB_PATH
+        
+        rm -rf "rok-linux-amd64/"
