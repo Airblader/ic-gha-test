@@ -1,0 +1,28 @@
+# nonk8s
+#apiVersion: core/v1alpha1
+#kind: Savepoint
+#metadata:
+#  name: window-aggregation-state-0.1
+#  project: default
+#zone: shared-aws-eu-west-1
+#spec:
+#  type: Final
+#  jobRef:
+#    name: window-aggregation-0.1
+#  finalOptions:
+#    shutdownMethod: Graceful
+#---
+#apiVersion: core/v1alpha1
+#kind: Job
+#metadata:
+#  name: window-aggregation-0.2
+#  project: default
+#zone: shared-aws-eu-west-1
+#spec:
+#  artifactRef:
+#    name: window-aggregation-0.2
+#  initialStateRef:
+#    name: window-aggregation-state-0.1
+#  flinkVersion: "1.16"
+#  resources:
+#    rpus: 2

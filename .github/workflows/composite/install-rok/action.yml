@@ -4,6 +4,9 @@ inputs:
   version:
     description: "CLI version, e.g. 0.0.1"
     required: true
+  accessToken:
+    description: "Use 'rok auth generate' to generate an access token"
+    required: true
 runs:
   using: composite
   steps:
@@ -19,3 +22,7 @@ runs:
         echo "$HOME/.local/bin/rok" >> $GITHUB_PATH
         
         rm -rf "rok-linux-amd64/"
+    - name: Log into Immerok Cloud
+      shell: bash
+      run: |
+        rok auth login --token "${{ inputs.accessToken }}"

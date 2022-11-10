@@ -22,11 +22,19 @@ jobs:
         uses: ./.github/workflows/composite/install-rok
         with:
           version: 0.0.12
+          accessToken: "${{ secrets.ROK_TOKEN }}"
       - name: Build Flink job
         working-directory: window-aggregation
         run: |
           mvn package
-      - name: Test
+      - name: Deploy to Immerok Cloud
+        shell: bash
         run: |
-          rok auth login --token "${{ secrets.ROK_TOKEN }}"
-          rok version
+          ARTIFACT_JAR="$(find window-aggregation/target/ -name "example-window-aggregation-*.jar")"
+          [[ "${ARTIFACT_JAR}" =~ example-window-aggregation-(.*)\.jar$ ]] && {
+            ARTIFACT_VERSION="${BASH_REMATCH[1]:-}"
+          }
+          
+          if rok create artifact "window-aggregation-${ARTIFACT_VERSION}" -f "${ARTIFACT_JAR}"; then
+            rok apply --recursive -f specs/
+          fi
