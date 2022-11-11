@@ -19,7 +19,7 @@ jobs:
           java-version: "11"
           distribution: "adopt"
       - name: Install rok CLI
-        uses: immerok/install-rok-action@v1
+        uses: immerok/setup-rok@v1
         with:
           version: 0.0.12
           accessToken: "${{ secrets.ROK_TOKEN }}"
