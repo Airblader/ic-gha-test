@@ -19,7 +19,8 @@ jobs:
           java-version: "11"
           distribution: "adopt"
       - name: Install rok CLI
-        uses: ./.github/workflows/composite/install-rok
+        # uses: ./.github/workflows/composite/install-rok
+        uses: immerok/install-rok-action@v1
         with:
           version: 0.0.12
           accessToken: "${{ secrets.ROK_TOKEN }}"
